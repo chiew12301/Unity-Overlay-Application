@@ -32,7 +32,12 @@ namespace WINDOWAPI
 
         private void Update()
         {
-            SetClickthrough(Physics2D.OverlapPoint(KC_Custom.KCUtil.GetMouseWorldPosition()) == null);
+            Vector3 mouseWorldPosition = KC_Custom.KCUtil.GetMouseWorldPosition();
+            Collider2D collider2D = Physics2D.OverlapPoint(mouseWorldPosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit3D;
+            bool collider3DHit = Physics.Raycast(ray, out hit3D) && hit3D.collider.CompareTag("Player");
+            SetClickthrough(collider2D == null && !collider3DHit);
         }
 
         //===============================================================
